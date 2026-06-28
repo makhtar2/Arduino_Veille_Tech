@@ -190,7 +190,15 @@ C'est l'outil de référence pour apprendre l'électronique embarquée et réali
 
 ## Quelle est la différence entre Arduino Uno, Mega et Nano ?
 
-![bg 68%](images/arduino_comparison.png)
+![bg right:50% fit](images/arduino_comparison.png)
+
+| | **Uno** | **Mega** | **Nano** |
+|--|---------|----------|----------|
+| Format | Standard | Grand | Miniature |
+| I/O num. | 14 | 54 | 14 |
+| I/O ana. | 6 | 16 | 8 |
+| Flash | 32 Ko | 256 Ko | 32 Ko |
+| RAM | 2 Ko | 8 Ko | 2 Ko |
 
 ---
 
@@ -226,7 +234,7 @@ La Nano embarque le même ATmega328P que l'Uno mais dans un format ultra-compact
 
 ## Pourquoi l'ESP32 est-il souvent utilisé pour les projets IoT ?
 
-![bg right:38% 85%](images/esp32.png)
+![bg right:35% fit](images/esp32.png)
 
 L'ESP32 est devenu un standard dans l'Internet des Objets car il intègre nativement ce qu'il faut acheter en plus pour un Arduino Uno classique :
 
