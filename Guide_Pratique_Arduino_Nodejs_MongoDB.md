@@ -56,38 +56,46 @@ void loop() {
 
 ## 🗄️ Étape 2 : Installation et Configuration de MongoDB (En Local)
 
-Pour faire simple et éviter la complexité de la configuration dans le cloud, nous utilisons la base de données en local sur votre ordinateur.
+Pour faire simple et éviter la complexité de la configuration dans le cloud, nous utilisons la base de données en local. Suivez les étapes correspondant à votre système d'exploitation.
 
-### 1. Installer et démarrer MongoDB sur votre PC Linux
-Ouvrez un terminal et exécutez la commande suivante pour installer et démarrer le service MongoDB :
-```bash
-sudo apt update && sudo apt install -y mongodb && sudo systemctl start mongodb
-```
-*La base de données tourne désormais silencieusement en tâche de fond sur votre ordinateur.*
+### Option A : Si vous êtes sur Windows
+1. **Télécharger l'installateur** : Rendez-vous sur le site officiel et téléchargez le fichier d'installation `.msi` : [Télécharger MongoDB Community Server](https://www.mongodb.com/try/download/community).
+2. **Lancer l'installation** : Double-cliquez sur le fichier téléchargé. 
+   * Choisissez le mode d'installation **"Complete"**.
+   * Laissez cochée la case **"Install MongoDB as a Service"** (cela permet à la base de démarrer automatiquement avec votre PC).
+   * Laissez également cochée la case **"Install MongoDB Compass"** (l'interface graphique s'installera en même temps).
+3. **Se connecter** : Ouvrez **MongoDB Compass**, laissez l'adresse par défaut `mongodb://localhost:27017` et cliquez sur le bouton vert **"Connect"**.
 
-### 2. Installer MongoDB Compass (l'interface graphique)
-Pour visualiser vos données enregistrées :
-1. Téléchargez le fichier d'installation en cliquant ici : [Télécharger MongoDB Compass (.deb)](https://downloads.mongodb.com/compass/mongodb-compass_1.43.0_amd64.deb)
-2. Une fois le téléchargement terminé, double-cliquez sur le fichier `.deb` dans votre dossier Téléchargements pour l'installer (ou exécutez `sudo dpkg -i ~/Downloads/mongodb-compass_*.deb` dans le terminal).
+### Option B : Si vous êtes sur Linux (Ubuntu/Debian)
+1. **Installer et démarrer le service** :
+   ```bash
+   sudo apt update && sudo apt install -y mongodb && sudo systemctl start mongodb
+   ```
+2. **Installer MongoDB Compass** :
+   * Téléchargez le fichier `.deb` : [Télécharger MongoDB Compass (.deb)](https://downloads.mongodb.com/compass/mongodb-compass_1.43.0_amd64.deb).
+   * Installez-le en double-cliquant dessus ou via le terminal : `sudo dpkg -i ~/Downloads/mongodb-compass_*.deb`.
+3. **Se connecter** : Lancez **MongoDB Compass** et cliquez sur le bouton vert **"Connect"** (avec la chaîne `mongodb://localhost:27017`).
 
-### 3. Se connecter et préparer la Base de Données
-1. Lancez **MongoDB Compass** depuis la liste de vos applications.
-2. Une fenêtre s'ouvre avec une case pré-remplie contenant la chaîne par défaut : `mongodb://localhost:27017`.
-3. Cliquez simplement sur le bouton vert **"Connect"**.
-4. Une fois connecté, cliquez sur **Create database** (Créer une base de données) :
+### 3. Préparer la Base de Données (Identique pour Windows & Linux)
+Une fois connecté sur MongoDB Compass :
+1. Cliquez sur le bouton **Create database** (Créer une base de données).
+2. Remplissez les champs ainsi :
    * **Database Name** : `iot_database`
    * **Collection Name** : `sensor_data`
-5. Laissez Compass ouvert de côté.
+3. Cliquez sur **Create Database**. Laissez Compass ouvert de côté.
 
 ---
 
 ## 💻 Étape 3 : Création du Projet Backend Node.js
 
 ### 1. Initialiser le projet
-Ouvrez votre terminal et créez le dossier du serveur :
+Ouvrez votre invite de commande (CMD/PowerShell sur Windows, ou Terminal sur Linux) et lancez :
 ```bash
-mkdir -p /home/almuxtaar/Desktop/Veille_Technologique_Microcontroleur/iot_backend
-cd /home/almuxtaar/Desktop/Veille_Technologique_Microcontroleur/iot_backend
+# Créez le dossier et entrez dedans
+mkdir iot_backend
+cd iot_backend
+
+# Initialisez le projet Node.js
 npm init -y
 ```
 
@@ -101,10 +109,12 @@ npm install mongoose serialport @serialport/parser-readline dotenv
 Créez un fichier nommé `.env` dans votre dossier `iot_backend` :
 ```env
 MONGO_URI=mongodb://127.0.0.1:27017/iot_database
-SERIAL_PORT=/dev/ttyACM0
+SERIAL_PORT=COM3
 BAUD_RATE=9600
 ```
-*Note : Sur Linux, le port série est généralement `/dev/ttyACM0` ou `/dev/ttyUSB0`. Sur Windows, ce sera un port comme `COM3`.*
+*Note sur le Port Série (SERIAL_PORT) :*
+* **Sur Windows** : Il s'agit d'un port COM (ex: `COM3`, `COM4`, `COM5`). Vous pouvez trouver le numéro exact dans l'Arduino IDE (menu *Outils > Port*) ou dans le *Gestionnaire de périphériques* de Windows.
+* **Sur Linux** : C'est généralement `/dev/ttyACM0` ou `/dev/ttyUSB0`.
 
 ---
 
