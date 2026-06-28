@@ -3,147 +3,192 @@ marp: true
 theme: default
 paginate: true
 style: |
-  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
+  /* ── Base ─────────────────────────────────────────────── */
   section {
     font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 19px;
-    background: #020813;
-    color: #cbd5e1;
-    padding: 40px 60px;
+    font-size: 18px;
+    background: #f8fafc;
+    color: #1e293b;
+    padding: 44px 60px 44px 60px;
     position: relative;
+    border-bottom: none;
   }
+
+  /* Thin accent strip at top */
   section::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
-    height: 6px;
-    background: linear-gradient(90deg, #001e2b 0%, #00ed64 50%, #06b6d4 100%);
+    height: 5px;
+    background: linear-gradient(90deg, #00684a 0%, #00ed64 60%, #13aa52 100%);
   }
+
+  /* Page number */
   section::after {
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 12px;
-    color: #475569;
-    bottom: 14px;
-    right: 52px;
+    color: #94a3b8;
+    bottom: 16px;
+    right: 56px;
   }
+
+  /* Vertical accent bar on left */
+  section:not(.cover) {
+    border-left: 4px solid #00684a;
+  }
+
+  /* ── Cover slide ─────────────────────────────────────── */
   section.cover {
-    background: linear-gradient(135deg, #001e2b 0%, #00684a 60%, #020813 100%);
-    color: #ffffff;
+    background: #ffffff;
+    border-left: none;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    padding: 60px 80px;
+    padding: 64px 80px;
+  }
+  section.cover::before {
+    height: 100%;
+    width: 6px;
+    top: 0; left: 0; right: auto; bottom: 0;
+    background: linear-gradient(180deg, #00684a 0%, #00ed64 50%, #13aa52 100%);
   }
   section.cover h1 {
-    font-size: 42px;
+    font-size: 44px;
     font-weight: 800;
-    color: #ffffff;
-    background: none;
-    -webkit-text-fill-color: #ffffff;
-    line-height: 1.2;
-    margin-bottom: 14px;
+    color: #0f172a;
+    line-height: 1.15;
+    margin-bottom: 10px;
   }
   section.cover h2 {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 500;
-    color: #00ed64;
+    color: #00684a;
     border: none;
     padding: 0;
-    margin-bottom: 36px;
+    margin-bottom: 40px;
     background: none;
   }
   section.cover p {
-    color: #94a3b8;
+    color: #64748b;
     font-size: 14px;
-    border-top: 1px solid rgba(255,255,255,0.1);
+    border-top: 1px solid #e2e8f0;
     padding-top: 20px;
     width: 100%;
+    margin-top: 0;
   }
+
+  /* ── Headings ─────────────────────────────────────────── */
   h1 {
-    font-size: 32px;
+    font-size: 30px;
     font-weight: 800;
-    color: #ffffff;
+    color: #0f172a;
     line-height: 1.2;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     margin-top: 0;
   }
   h2 {
-    font-size: 21px;
+    font-size: 20px;
     font-weight: 700;
-    color: #00ed64;
-    background: rgba(0, 237, 100, 0.05);
-    border-left: 5px solid #00ed64;
+    color: #0f172a;
+    background: linear-gradient(90deg, #f0fdf4 0%, #f8fafc 100%);
+    border-left: 5px solid #00684a;
     padding: 10px 18px;
     border-radius: 0 8px 8px 0;
     margin-bottom: 22px;
     margin-top: 0;
-    line-height: 1.45;
+    line-height: 1.4;
   }
-  p { line-height: 1.7; color: #94a3b8; margin-top: 6px; }
-  ul, ol { line-height: 1.9; color: #cbd5e1; padding-left: 24px; }
-  li { margin-bottom: 5px; }
-  li::marker { color: #00ed64; font-weight: 700; }
-  strong { color: #ffffff; font-weight: 700; }
+
+  /* ── Body text ─────────────────────────────────────────── */
+  p {
+    line-height: 1.7;
+    color: #334155;
+    margin-top: 6px;
+  }
+  ul, ol {
+    line-height: 1.9;
+    color: #334155;
+    padding-left: 24px;
+  }
+  li { margin-bottom: 4px; }
+  li::marker { color: #00684a; font-weight: 700; }
+  strong { color: #0f172a; font-weight: 700; }
+  em { color: #475569; }
+
+  /* ── Blockquote ─────────────────────────────────────────── */
   blockquote {
-    background: rgba(6, 182, 212, 0.08);
-    border-left: 4px solid #06b6d4;
+    background: #f0fdf4;
+    border-left: 4px solid #16a34a;
     border-radius: 0 8px 8px 0;
     padding: 12px 20px;
-    margin: 16px 0;
-    color: #e0f2fe;
+    margin: 14px 0;
+    color: #166534;
     font-weight: 500;
-    font-size: 17px;
+    font-size: 16px;
   }
+
+  /* ── Tables ─────────────────────────────────────────────── */
   table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 15px;
-    margin-top: 12px;
-    border-radius: 8px;
+    font-size: 14px;
+    margin-top: 10px;
+    border-radius: 10px;
     overflow: hidden;
-    background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(255,255,255,0.05);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border: 1px solid #e2e8f0;
   }
   th {
-    background: #001e2b;
-    color: #00ed64;
+    background: #0f172a;
+    color: #f8fafc;
     font-weight: 600;
-    padding: 12px 16px;
+    padding: 11px 16px;
     text-align: left;
-    font-size: 13px;
-    letter-spacing: 0.04em;
+    font-size: 12px;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
   }
   td {
-    padding: 10px 16px;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    color: #94a3b8;
-    font-size: 14px;
+    padding: 9px 16px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #475569;
+    font-size: 13.5px;
+    background: #ffffff;
   }
   tr:last-child td { border-bottom: none; }
-  tr:nth-child(even) td { background: rgba(255,255,255,0.01); }
+  tr:nth-child(even) td { background: #f8fafc; }
+  td strong { color: #0f172a; }
+
+  /* ── Code ─────────────────────────────────────────────── */
   code {
-    background: #0f172a;
-    color: #38bdf8;
+    background: #f1f5f9;
+    color: #0369a1;
     padding: 2px 8px;
-    border-radius: 4px;
+    border-radius: 5px;
     font-size: 14px;
-    font-family: 'Fira Code', monospace;
-    border: 1px solid rgba(255,255,255,0.05);
+    font-family: 'JetBrains Mono', monospace;
+    border: 1px solid #e2e8f0;
   }
   pre {
-    background: #001e2b;
-    color: #cbd5e1;
-    padding: 16px 20px;
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 18px 22px;
     border-radius: 10px;
-    font-size: 14px;
-    border-left: 4px solid #00ed64;
-    border: 1px solid rgba(255,255,255,0.05);
+    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
+    border-left: 5px solid #00ed64;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
   }
-  pre code { background: transparent; color: #e2e8f0; border: none; padding: 0; }
+  pre code {
+    background: transparent;
+    color: #e2e8f0;
+    border: none;
+    padding: 0;
+    font-size: 13px;
+  }
 ---
 
 <!-- _class: cover -->
