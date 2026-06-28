@@ -164,7 +164,10 @@ style: |
 # Veille Technologique
 ## Microcontrôleurs & Arduino
 
-**Groupe TP — Juin 2026**
+**Groupe**
+**Makhtar WADE**
+**Mouhamed DIOP**
+**Bintou DIAME**
 
 ---
 
