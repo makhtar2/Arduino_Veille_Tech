@@ -168,81 +168,48 @@ style: |
 
 ---
 
-## Quel est le rôle d'une carte Arduino ?
+## Quel est le rôle d’une carte Arduino ?
 
 ![bg right:40% 90%](images/arduino_uno.png)
 
-Une carte Arduino est une **plateforme de prototypage électronique** qui fait le lien entre le monde réel et le code informatique. Elle permet de :
+C'est un petit ordinateur simplifié (un microcontrôleur) sur une carte électronique. Son rôle est de faire le lien entre le monde physique et le code :
 
-- **Lire** des informations depuis l'environnement (capteurs de température, lumière, distance...)
-- **Traiter** ces données via un programme chargé dans sa mémoire
-- **Agir** sur l'environnement en contrôlant des actionneurs (moteurs, LEDs, écrans...)
+*   Elle **capte** des informations (température, lumière, présence) grâce à des capteurs connectés.
+*   Elle **décide** quoi faire en exécutant le programme qu'on a écrit.
+*   Elle **agit** sur l'environnement en envoyant des signaux à des actionneurs (LEDs, moteurs, écrans).
 
-C'est l'outil de référence pour apprendre l'électronique embarquée et réaliser des prototypes rapidement.
+C'est le cerveau de notre projet de prototypage.
 
 ---
 
-## Arduino Uno — Schéma complet des broches et composants
+## Schéma complet des broches et composants de l'Arduino Uno
 
 ![bg contain](images/arduino_uno_pinout.png)
 
 ---
 
-## Quelle est la différence entre Arduino Uno, Mega et Nano ?
+## Quelle est la différence entre Arduino Uno, Arduino Mega et Arduino Nano ?
 
 ![bg right:50% fit](images/arduino_comparison.png)
 
-| | **Uno** | **Mega** | **Nano** |
-|--|---------|----------|----------|
-| Format | Standard | Grand | Miniature |
-| I/O num. | 14 | 54 | 14 |
-| I/O ana. | 6 | 16 | 8 |
-| Flash | 32 Ko | 256 Ko | 32 Ko |
-| RAM | 2 Ko | 8 Ko | 2 Ko |
+Ces trois cartes partagent le même principe mais s'adaptent à la taille et aux besoins du projet :
+
+*   **Arduino Uno** : Le modèle standard. Idéal pour débuter, robuste et facile à câbler.
+*   **Arduino Mega** : Version XXL. Elle offre beaucoup plus de pins (54) et de mémoire. On l'utilise pour des gros projets (robots complexes, imprimantes 3D).
+*   **Arduino Nano** : Version miniature. Elle fait presque la même chose que la Uno mais tient sur une breadboard pour les projets compacts.
 
 ---
 
-## Uno vs Mega vs Nano — Quelle carte choisir ?
-
-![bg right:42% 95%](images/arduino_mega.png)
-
-**Arduino Uno** — La carte idéale pour débuter. Simple, bien documentée, parfaite pour la majorité des projets d'apprentissage et de prototypage.
-
-**Arduino Mega** — Conçue pour les projets complexes nécessitant de nombreuses entrées/sorties : 54 broches numériques, 16 entrées analogiques, 4 ports série matériels.
-
-**Arduino Nano** — Même puissance que l'Uno dans un format 3x plus petit. Idéale pour les projets compacts ou portables.
-
----
-
-## Arduino Nano — La carte miniature en détail
-
-![bg right:45% 90%](images/arduino_nano.png)
-
-La Nano embarque le même ATmega328P que l'Uno mais dans un format ultra-compact qui s'enfiche directement sur une breadboard.
-
-**Points forts :**
-- 8 entrées analogiques (vs 6 sur l'Uno)
-- Pas besoin de shield pour prototypage
-- Compatible avec les mêmes bibliothèques que l'Uno
-
-**Contraintes :**
-- Pas de connecteur jack d'alimentation
-- Port Mini-USB ou Micro-USB selon la version
-- Courant de sortie par broche identique (40 mA max)
-
----
-
-## Pourquoi l'ESP32 est-il souvent utilisé pour les projets IoT ?
+## Pourquoi l’ESP32 est-il souvent utilisé pour les projets IoT ?
 
 ![bg right:35% fit](images/esp32.png)
 
-L'ESP32 est devenu un standard dans l'Internet des Objets car il intègre nativement ce qu'il faut acheter en plus pour un Arduino Uno classique :
+L'ESP32 s'est imposé dans l'Internet des Objets (IoT) car il résout les manques de l'Arduino Uno :
 
-- **Wi-Fi et Bluetooth inclus** directement sur la puce, sans module externe.
-- **Processeur double-cœur à 240 MHz** contre 16 MHz monocœur pour l'Uno, soit une puissance bien supérieure.
-- **Mémoire généreuse** (520 Ko de RAM) permettant de faire tourner des protocoles réseau comme HTTPS ou MQTT.
-- **Modes de veille profonde** pour économiser la batterie dans les objets autonomes.
-- Prix comparable à un Arduino Uno, ce qui en fait un choix rationnel pour tout projet connecté.
+*   **Wi-Fi et Bluetooth intégrés** : Plus besoin de rajouter des modules compliqués et chers.
+*   **Puissance de calcul** : Il tourne à 240 MHz (double-cœur) contre seulement 16 MHz pour la Uno.
+*   **Mémoire confortable** : 520 Ko de RAM (contre 2 Ko), indispensable pour sécuriser les données et gérer le réseau.
+*   **Économie d'énergie** : Des modes de veille très poussés pour fonctionner longtemps sur batterie.
 
 ---
 
@@ -251,15 +218,12 @@ L'ESP32 est devenu un standard dans l'Internet des Objets car il intègre native
 <!-- IMAGE: chercher sur Google "Arduino Uno pinout diagram" → sauvegarder dans images/arduino_pinout_diagram.png -->
 <!-- ![bg right:38% 90%](images/arduino_pinout_diagram.png) -->
 
-Une carte Arduino expose plusieurs types de connexions physiques :
+Elles se divisent en plusieurs groupes physiques sur la carte :
 
-| Type | Broches | Utilité concrète |
-|------|---------|-----------------|
-| Numériques | D0 à D13 | Lire un bouton, allumer une LED |
-| PWM | D3, 5, 6, 9, 10, 11 | Varier vitesse moteur ou intensité LED |
-| Analogiques | A0 à A5 | Lire potentiomètre, LDR, capteur de gaz |
-| Alimentation | 5V, 3.3V, GND | Alimenter capteurs et modules |
-| Communication | TX/RX, SDA/SCL | Liaisons série, I2C, SPI |
+*   **Entrées/Sorties Numériques (D0-D13)** : Pour le "tout ou rien" (allumer une LED, lire un bouton poussoir).
+*   **Sorties PWM (indiquées par un ~)** : Pour simuler une variation (vitesse d'un moteur, intensité d'une LED).
+*   **Entrées Analogiques (A0-A5)** : Pour mesurer une tension variable (capteur de lumière, de température).
+*   **Broches d'alimentation (5V, 3.3V, GND)** : Pour fournir l'énergie électrique aux capteurs et modules.
 
 ---
 
@@ -268,25 +232,19 @@ Une carte Arduino expose plusieurs types de connexions physiques :
 <!-- IMAGE: chercher sur Google "digital vs analog signal arduino" → sauvegarder dans images/analog_vs_digital.png -->
 <!-- ![bg right:38% 85%](images/analog_vs_digital.png) -->
 
-**Entrée numérique** : deux états uniquement — HAUT (5V) ou BAS (0V). Pour des interrupteurs ou capteurs tout-ou-rien. Fonction : `digitalRead()`.
+La différence réside dans la nature du signal que la carte reçoit :
 
-**Entrée analogique** : tension continue entre 0V et 5V, convertie en valeur entre **0 et 1023** (10 bits). Pour quantifier des grandeurs physiques. Fonction : `analogRead()`.
-
-> Exemple : un bouton → numérique. Un capteur de luminosité (LDR) → analogique.
+*   **Entrée numérique** : Ne comprend que deux états. C'est 0 (0V) ou 1 (5V). On l'utilise par exemple pour savoir si un bouton est appuyé ou non.
+*   **Entrée analogique** : Mesure une tension qui varie de façon continue (entre 0V et 5V). La carte convertit cette mesure en un nombre de **0 à 1023**. On l'utilise pour quantifier précisément une valeur (comme la luminosité ambiante avec une LDR).
 
 ---
 
 ## À quoi servent les fonctions setup() et loop() dans Arduino ?
 
-Tout programme Arduino repose sur deux fonctions obligatoires :
+Chaque programme Arduino s'organise autour de ces deux fonctions obligatoires :
 
-**`setup()`** — exécutée **une seule fois** au démarrage ou après un reset. On y initialise le programme : configuration des broches, démarrage de la communication série, initialisation des capteurs.
-
-**`loop()`** — exécutée **en boucle infinie** juste après. C'est le coeur du programme : lecture des capteurs, prise de décision, contrôle des sorties. Elle tourne sans jamais s'arrêter tant que la carte est alimentée.
-
-```
-Démarrage → setup() → loop() → loop() → loop() → ...
-```
+*   **`setup()`** : Elle s'exécute **une seule fois** au démarrage. On l'utilise pour configurer le système (dire quelles broches sont des entrées ou des sorties, démarrer la liaison avec l'ordinateur).
+*   **`loop()`** : Elle tourne **en boucle infinie** dès que `setup()` est finie. C'est ici qu'on met la logique du projet (lire le capteur, calculer, puis allumer le moteur ou l'alarme). Elle se répète des milliers de fois par seconde.
 
 ---
 
@@ -295,38 +253,33 @@ Démarrage → setup() → loop() → loop() → loop() → ...
 <!-- IMAGE: chercher sur Google "arduino USB UART communication diagram" → sauvegarder dans images/usb_uart.png -->
 <!-- ![bg right:38% 85%](images/usb_uart.png) -->
 
-L'Arduino communique avec l'ordinateur via le câble USB. Une puce dédiée (ATmega16U2 sur les cartes officielles, CH340 sur les clones) **convertit le signal USB en protocole UART**, compris par le microcontrôleur.
+La liaison se fait via le câble USB, mais de façon indirecte :
 
-```cpp
-Serial.begin(9600);       // initialiser la liaison à 9600 bauds
-Serial.println(valeur);   // envoyer une valeur vers l'ordinateur
-```
-
----
-
-## Qu'est-ce que le moniteur série ?
-
-Le moniteur série est un **outil de débogage et de communication** intégré à l'IDE Arduino. Il affiche en temps réel les données que l'Arduino envoie via `Serial.println()`.
-
-Il est indispensable pour :
-- Vérifier les valeurs lues par les capteurs
-- Suivre l'exécution d'un programme étape par étape
-- Envoyer des commandes textuelles depuis l'ordinateur vers la carte
-
-**Accès** : Outils > Moniteur Série (ou Ctrl+Shift+M). La vitesse sélectionnée doit correspondre à celle déclarée dans `Serial.begin()`.
+1.  Le microcontrôleur principal de la carte parle un langage simple appelé **UART** (liaison série).
+2.  Une petite puce convertisseuse présente sur la carte (comme l'ATmega16U2 ou la CH340) traduit ce signal en **USB** pour que l'ordinateur puisse le lire.
+3.  Côté code, on utilise la commande `Serial.begin(9600)` pour ouvrir cette ligne de communication.
 
 ---
 
-## Quel est le rôle d'un module Wi-Fi ESP8266 ?
+## Qu’est-ce que le moniteur série ?
+
+C'est une fenêtre de l'IDE Arduino qui sert de terminal de discussion entre la carte et votre ordinateur.
+
+*   **À quoi ça sert ?** Principalement à déboguer. On peut lui demander d'afficher en direct ce que mesurent les capteurs grâce à `Serial.println(valeur)`.
+*   **Pourquoi c'est utile ?** Sans écran branché sur la carte, c'est notre seul moyen de voir ce qu'il se passe à l'intérieur du microcontrôleur pendant que le programme tourne.
+
+---
+
+## Quel est le rôle d’un module Wi-Fi ESP8266 ?
 
 <!-- IMAGE: chercher sur Google "ESP8266 ESP-01 module photo" → sauvegarder dans images/esp8266.png -->
 <!-- ![bg right:35% 80%](images/esp8266.png) -->
 
-L'ESP8266 est un module Wi-Fi qui ajoute la connectivité réseau à un microcontrôleur qui n'en possède pas nativement.
+Ce module sert de passerelle réseau. Il permet de connecter un Arduino classique (qui n'a pas d'antenne) à internet :
 
-- Communique avec l'Arduino via des **commandes AT** sur liaison série
-- En version NodeMCU : fonctionne **seul sans Arduino**
-- Utilisé pour envoyer des données vers un serveur ou appeler une API web
+*   Il communique avec l'Arduino en liaison série (avec des commandes texte dites "commandes AT").
+*   Il permet d'envoyer les données de nos capteurs vers un serveur en ligne, ou de piloter l'Arduino à distance depuis une page web.
+*   *Note* : Il possède aussi son propre processeur et peut parfois être programmé tout seul, sans carte Arduino.
 
 ---
 
@@ -335,16 +288,13 @@ L'ESP8266 est un module Wi-Fi qui ajoute la connectivité réseau à un microcon
 <!-- IMAGE: chercher sur Google "arduino sensor wiring breadboard DHT11" → sauvegarder dans images/capteur_branchement.png -->
 <!-- ![bg right:38% 85%](images/capteur_branchement.png) -->
 
-La connexion suit toujours le même schéma à trois fils :
+La connexion typique se fait presque toujours avec 3 fils :
 
-| Broche du capteur | Connectée à | Raison |
-|-------------------|-------------|--------|
-| VCC (ou +) | 5V ou 3.3V de l'Arduino | Alimenter le capteur |
-| GND (ou -) | GND de l'Arduino | Référence commune de tension |
-| SIG / OUT / DATA | Broche numérique ou analogique | Transmettre la mesure |
-
-Sortie tension variable (LDR) → broche **analogique (A0-A5)**.
-Signal binaire (DHT11) → broche **numérique (D2-D13)**.
+1.  **L'alimentation (VCC)** : reliée au 5V ou 3.3V de l'Arduino.
+2.  **La masse (GND)** : branchée sur le GND de la carte pour fermer le circuit électrique.
+3.  **Le signal (SIG / OUT)** : relié à une pin de l'Arduino.
+    *   Si le signal est binaire (ex: détecteur de présence) $\rightarrow$ pin numérique.
+    *   Si le signal varie continuellement (ex: température analogique) $\rightarrow$ pin analogique.
 
 ---
 
@@ -353,31 +303,19 @@ Signal binaire (DHT11) → broche **numérique (D2-D13)**.
 <!-- IMAGE: chercher sur Google "arduino relay module wiring diagram" → sauvegarder dans images/actionneur_relais.png -->
 <!-- ![bg right:38% 85%](images/actionneur_relais.png) -->
 
-**Faible puissance (< 40 mA)** : connexion directe avec résistance en série. Pour LEDs, buzzers passifs.
+Tout dépend de la puissance électrique dont l'actionneur a besoin :
 
-**Forte puissance** : interface intermédiaire obligatoire :
-- **Transistor MOSFET** pour moteur DC
-- **Relais** pour circuits 220V
-- **Pont en H (L298N)** pour contrôler le sens de rotation
-
-L'Arduino commande l'interrupteur, une alimentation externe alimente l'actionneur.
+*   **Faible puissance** (LED, petit buzzer) : On le branche directement sur une sortie numérique de l'Arduino en ajoutant une résistance pour limiter le courant.
+*   **Forte puissance** (moteur, lampe 220V) : L'Arduino ne peut pas fournir assez de courant (limité à 40mA par pin). On utilise alors un composant intermédiaire (transistor, relais ou pont en H) qui sert d'interrupteur commandé. L'énergie provient d'une alimentation externe.
 
 ---
 
-## Qu'est-ce qu'une bibliothèque Arduino ?
+## Qu’est-ce qu’une bibliothèque Arduino ?
 
-Une bibliothèque est un ensemble de fonctions préconçues qui simplifient la communication avec des composants complexes. Au lieu de programmer la séquence d'octets nécessaire pour interroger un capteur, on appelle une fonction lisible.
+C'est un ensemble de code écrit par la communauté pour simplifier l'utilisation de composants complexes.
 
-**Sans bibliothèque** : 30 lignes de gestion de protocoles bas niveau.
-**Avec bibliothèque** : `float t = dht.readTemperature();` — une seule ligne.
-
-Les bibliothèques les plus courantes :
-- **DHT.h** — capteur de température et humidité
-- **Servo.h** — contrôle de servomoteurs
-- **LiquidCrystal_I2C.h** — écran LCD sur bus I2C
-- **Wire.h** — communication I2C générique
-
-Installation : Croquis > Inclure une bibliothèque > Gérer les bibliothèques.
+*   **L'avantage** : Vous n'avez pas besoin de programmer chaque étape technique. La bibliothèque traduit vos demandes simples en instructions complexes pour la carte.
+*   **Exemple** : Au lieu de coder manuellement le protocole de communication d'un capteur, vous importez la bibliothèque associée (`#include <Nom.h>`) et utilisez une commande toute faite comme `capteur.read()`.
 
 ---
 
@@ -386,54 +324,49 @@ Installation : Croquis > Inclure une bibliothèque > Gérer les bibliothèques.
 <!-- IMAGE: chercher sur Google "arduino sensor module VCC GND SIG pins" → sauvegarder dans images/module_pins.png -->
 <!-- ![bg right:35% 80%](images/module_pins.png) -->
 
-Ces étiquettes se retrouvent sur la quasi-totalité des modules du kit :
+Ces abréviations imprimées sur nos modules ont chacune une utilité précise :
 
-| Broche | Nom complet | Rôle |
-|--------|-------------|------|
-| VCC | Tension d'alimentation | Reçoit le +5V ou +3.3V |
-| GND | Ground (masse) | Référence électrique commune (0V) |
-| SIG | Signal | Entrée ou sortie de données |
-| AO | Analog Output | Tension continue proportionnelle à la mesure |
-| DO | Digital Output | Signal binaire selon un seuil réglable |
+*   **VCC** : L'alimentation positive (+5V ou +3.3V) venant de la carte Arduino.
+*   **GND** : La masse (0V), indispensable pour fermer le circuit électrique.
+*   **SIG** : La broche qui transporte le signal de données mesuré par le capteur.
+*   **AO** : La sortie analogique (Analog Output) qui donne une tension variable.
+*   **DO** : La sortie numérique (Digital Output) qui passe à 0 ou 1 si un seuil réglable est dépassé.
 
 ---
 
-## Comment identifier les broches d'un capteur sans documentation ?
+## Comment identifier les broches d’un capteur lorsque la documentation n’est pas disponible ?
 
 <!-- IMAGE: chercher sur Google "reading PCB silkscreen Arduino module" → sauvegarder dans images/pcb_silkscreen.png -->
 <!-- ![bg right:38% 85%](images/pcb_silkscreen.png) -->
 
-1. **Sérigraphie** : lire les étiquettes gravées sur le PCB des deux côtés
-2. **Référence de la puce** : chercher "LM393 datasheet" sur Google
-3. **Multimètre** : le GND est relié aux grandes surfaces de cuivre
-4. **Potentiomètre visible** : présence d'une sortie DO à seuil réglable
+Si vous n'avez pas de mode d'emploi, voici comment procéder :
+
+1.  **Regardez la sérigraphie** : Inspectez les deux faces du circuit imprimé, les labels (VCC, GND, OUT, +, -) sont souvent écrits en tout petit.
+2.  **Trouvez la puce principale** : Tapez sa référence sur internet (ex: "LM393 datasheet") pour trouver le schéma.
+3.  **Utilisez un multimètre** : En mode continuité, cherchez quelle broche est reliée au grand plan de masse en cuivre (c'est le GND).
+4.  **Repérez les composants clés** : La présence d'un petit potentiomètre bleu indique souvent une broche DO (Digital Output).
 
 ---
 
-## Quelles sont les limites d'une carte Arduino pour une application complexe ?
+## Quelles sont les limites d’une carte Arduino pour une application complexe ?
 
-L'Arduino Uno est excellent pour apprendre et prototyper, mais montre ses limites pour des applications exigeantes :
+La Uno montre rapidement ses limites si le projet grandit :
 
-| Limite | Explication |
-|--------|-------------|
-| Mémoire réduite | 2 Ko de RAM — impossible de gérer des chaînes longues ou des tableaux importants |
-| Mono-tâche | `delay()` bloque complètement le programme — aucun multitâche natif |
-| Pas de réseau | Aucun Wi-Fi ni Bluetooth intégré |
-| Vitesse limitée | 16 MHz ne permettent pas de traitement audio/vidéo ou calculs complexes |
-| Pas de sécurité | Aucun moteur de chiffrement pour des communications sécurisées |
+*   **Manque de mémoire** : Avec seulement 2 Ko de RAM, on ne peut pas traiter beaucoup de données ou de textes longs.
+*   **Pas de multitâche** : Elle ne fait qu'une seule chose à la fois. La fonction `delay()` bloque tout le programme.
+*   **Pas de connectivité** : Aucun circuit Wi-Fi ou Bluetooth n'est intégré d'origine.
+*   **Manque de puissance** : Son processeur à 16 MHz est trop lent pour du traitement d'images ou du son.
 
 ---
 
-## Dans quels cas faut-il préférer l'ESP32 à l'Arduino Uno ?
+## Dans quels cas faut-il préférer ESP32 à Arduino Uno ?
 
-L'ESP32 s'impose lorsque le projet dépasse les capacités de l'Uno :
+On choisit l'ESP32 dès que les limites de la Uno bloquent le projet :
 
-- Le projet doit envoyer ou recevoir des données via **Wi-Fi ou Bluetooth**.
-- Le traitement de données est **intensif** (audio, cryptographie légère, protocoles réseau).
-- On a besoin d'exécuter **plusieurs tâches simultanément** grâce à FreeRTOS sur les deux coeurs.
-- L'objet doit fonctionner sur **batterie** avec une consommation minimale (mode deep sleep).
-
-Pour un projet de démarrage sans réseau, l'Uno reste suffisant et plus simple à prendre en main.
+*   **Besoin de connectivité** : Pour envoyer des mesures de température sur un serveur web ou piloter un relais via Wi-Fi ou Bluetooth.
+*   **Traitement lourd** : Pour faire du calcul mathématique plus complexe ou chiffrer les données de communication.
+*   **Besoin de rapidité** : Pour gérer des écrans graphiques complexes ou des capteurs rapides.
+*   **Autonomie sur batterie** : Grâce aux modes sommeil de l'ESP32, la carte consomme presque rien quand elle n'est pas active.
 
 ---
 
@@ -442,13 +375,14 @@ Pour un projet de démarrage sans réseau, l'Uno reste suffisant et plus simple 
 <!-- IMAGE: chercher sur Google "Arduino IDE select port menu" → sauvegarder dans images/ide_port.png -->
 <!-- ![bg right:40% 85%](images/ide_port.png) -->
 
-1. Ouvrir **Outils > Port** et noter les ports présents
-2. **Débrancher** la carte Arduino
-3. **Rebrancher** : le nouveau port = votre carte
+Si vous hésitez dans la liste des ports disponibles :
 
-Noms typiques :
-- Windows : `COM3`, `COM7`...
-- Linux : `/dev/ttyACM0` ou `/dev/ttyUSB0`
+1.  Ouvrez le menu **Outils > Port** et regardez les choix.
+2.  Débranchez votre carte de l'ordinateur.
+3.  Rouvrez le menu : le port qui a disparu est celui de votre carte.
+4.  Rebranchez-la et sélectionnez ce port.
+    *   *Windows* : Il s'appelle généralement `COM3`, `COM4`, etc.
+    *   *Linux* : Il s'appelle souvent `/dev/ttyACM0` ou `/dev/ttyUSB0`.
 
 ---
 
@@ -457,80 +391,76 @@ Noms typiques :
 <!-- IMAGE: chercher sur Google "Arduino IDE board selection menu" → sauvegarder dans images/ide_board.png -->
 <!-- ![bg right:40% 85%](images/ide_board.png) -->
 
-1. Aller dans **Outils > Type de carte > Arduino AVR Boards**
-2. Sélectionner le modèle exact : **Arduino Uno**, **Mega**, **Nano**...
-3. Pour ESP32/ESP8266 : ajouter l'URL dans les Préférences puis installer via le Gestionnaire de cartes
+Il faut obligatoirement configurer l'IDE pour la bonne puce :
 
-Un mauvais choix de carte peut bloquer le téléversement.
+1.  Allez dans **Outils > Type de carte**.
+2.  Sélectionnez la famille correspondante (par exemple **Arduino AVR Boards** pour les cartes classiques).
+3.  Cliquez sur le nom exact de votre carte (ex: **Arduino Uno**, **Arduino Nano**).
+4.  *Attention* : Pour l'ESP32, il faut d'abord ajouter son lien d'installation dans les Préférences de l'IDE pour qu'il apparaisse dans la liste.
 
 ---
 
 ## Quelle est la différence entre compiler et téléverser un programme ?
 
-Ces deux actions sont souvent confondues mais sont bien distinctes :
+Ce sont les deux étapes pour envoyer du code dans la carte :
 
-**Compiler (Vérifier)** : l'ordinateur traduit le code C++ écrit par le développeur en langage machine binaire (fichier `.hex`). Cette étape ne nécessite pas que la carte soit branchée. Elle détecte les erreurs de syntaxe et les problèmes de logique structurelle.
-
-**Téléverser (Upload)** : compile d'abord le programme, puis transfère le binaire vers la mémoire flash du microcontrôleur via le câble USB. Un petit programme préinstallé sur l'Arduino, appelé **bootloader**, gère la réception et l'écriture de ce fichier.
+*   **Compiler (Vérifier)** : L'ordinateur vérifie s'il y a des fautes de syntaxe dans votre code, puis le traduit en code binaire (le langage machine que comprend le microcontrôleur). Cela fonctionne même si la carte n'est pas branchée.
+*   **Téléverser (Uploader)** : L'ordinateur compile d'abord le programme, puis utilise la liaison USB pour copier ce binaire dans la mémoire flash de la carte Arduino. La carte redémarre et commence immédiatement à exécuter le code.
 
 ---
 
 ## Que signifie le terme « baud rate » dans une communication série ?
 
-Le baud rate est la **vitesse de communication** d'une liaison série, exprimée en bits transmis par seconde.
+C'est la vitesse de transmission des données sur la liaison série :
 
-- `9600` bauds signifie que 9 600 bits sont échangés chaque seconde.
-- Valeurs courantes : `9600`, `19200`, `57600`, `115200`.
-
-Cette valeur doit être **identique** des deux côtés de la communication. Si l'Arduino envoie à 9600 et que le Moniteur Série écoute à 115200, les bits sont lus au mauvais rythme et le texte affiché sera illisible (symboles aléatoires).
-
-Déclaration dans le code : `Serial.begin(9600);`
-Sélection dans le Moniteur Série : menu déroulant en bas à droite.
+*   Elle s'exprime en **bits par seconde**.
+*   Par exemple, une vitesse de `9600` bauds signifie que la carte peut envoyer environ 9600 bits d'information par seconde.
+*   D'autres vitesses plus rapides sont courantes, comme `115200` bauds.
+*   Pour que la communication fonctionne, l'expéditeur et le destinataire doivent absolument être réglés sur la même vitesse.
 
 ---
 
-## Comment tester un capteur avant de l'intégrer dans un projet complet ?
+## Pourquoi la valeur configurée dans Serial.begin() doit-elle correspondre à celle du moniteur série ?
 
-Avant d'intégrer un capteur dans un projet complet, il est recommandé de le tester de manière isolée pour s'assurer qu'il fonctionne correctement :
+C'est une question de synchronisation temporelle :
 
-1. Connecter uniquement le capteur à l'Arduino sur une breadboard.
-2. Écrire un code minimal qui lit la valeur et l'affiche sur le Moniteur Série.
-3. Provoquer des variations de la grandeur mesurée (approcher la main, couvrir la lumière...) et vérifier que les valeurs réagissent logiquement.
-4. Si le capteur répond bien, l'intégrer ensuite dans le projet principal.
+*   La liaison série n'a pas de fil d'horloge partagé. L'ordinateur et l'Arduino doivent donc "deviner" le début et la fin de chaque bit en comptant le temps.
+*   Si l'Arduino envoie des données à 9600 bauds mais que le moniteur série écoute à 115200 bauds, l'ordinateur va lire le signal beaucoup trop vite.
+*   **Le résultat** : Les données reçues n'ont plus aucun sens et le moniteur affiche des caractères incompréhensibles (des rectangles, des points d'interrogation ou du texte bizarre).
 
-Cette isolation évite de passer des heures à chercher un bug dans un montage complexe.
+---
+
+## Comment tester un capteur avant de l’intégrer dans un projet complet ?
+
+Pour éviter de chercher des pannes compliquées, testez toujours vos composants un par un :
+
+1.  **Câblage minimal** : Branchez uniquement ce capteur sur votre plaque d'essai (breadboard).
+2.  **Code de test simple** : Utilisez un exemple de base fourni par la bibliothèque du capteur (menu Fichier > Exemples).
+3.  **Affichage direct** : Envoyez les mesures brutes sur le moniteur série.
+4.  **Test physique** : Soufflez sur le capteur de température, ou passez votre main devant le capteur de distance pour voir si les valeurs changent en direct.
 
 ---
 
 ## Comment savoir si une erreur vient du code, du câblage ou du capteur ?
 
-Face à un comportement anormal, il faut identifier si le problème vient du code, du câblage ou du composant lui-même :
+Procédez par élimination logique :
 
-| Hypothèse | Symptômes typiques | Vérification |
-|------------|-------------------|--------------|
-| **Code** | Valeurs brutes correctes, comportement logique faux | Relire les conditions `if`, les conversions, les seuils |
-| **Câblage** | Valeur bloquée à 0 ou 1023, composant chaud | Multimètre, vérifier chaque connexion |
-| **Capteur HS** | Exemple officiel + câblage vérifié → résultat impossible | Remplacer le composant |
-
-La règle est de toujours tester avec un exemple de bibliothèque certifié avant de conclure à une panne matérielle.
+*   **Erreur de code** : Le moniteur série affiche des valeurs, mais le programme ne réagit pas comme prévu (ex: le buzzer ne sonne pas). Revérifiez vos conditions `if` et vos variables.
+*   **Erreur de câblage** : Le capteur renvoie toujours la même valeur aberrante (ex: -999 ou 0) ou chauffe. Vérifiez avec vos yeux chaque fil et utilisez le multimètre.
+*   **Capteur en panne** : Si le câblage est parfait et que le code de test officiel ne fonctionne pas, essayez un autre capteur identique si vous en avez un.
 
 ---
 
-## Quels composants utiliser pour une station de surveillance intelligente d'une salle ?
+## Quels composants du kit peuvent être utilisés pour réaliser une station intelligente de surveillance d’une salle ?
 
 <!-- IMAGE: chercher sur Google "arduino smart room monitoring station diagram" → sauvegarder dans images/station_surveillance.png -->
 <!-- ![bg right:40% 85%](images/station_surveillance.png) -->
 
-Objectif : surveiller en temps réel la température, la luminosité et la sécurité d'une salle.
+Pour concevoir ce projet pratique, on combine ces modules du kit :
 
-**Capteurs :** DHT11 (temp/humidité), LDR (lumière), PIR (mouvement)
-
-**Actionneurs :** LED RVB (statut), Buzzer (alarme), LCD I2C (affichage)
-
-**Logique :**
-- Mouvement détecté → alerte rouge + buzzer
-- Température > 28°C → alerte orange + bip
-- Normal → LED verte + lecture toutes les secondes
+*   **Pour capter l'état de la salle** : Le capteur **DHT11** (mesure température/humidité), une photorésistance **LDR** (pour savoir si les lumières sont allumées) et un capteur **PIR** (détection de mouvements suspects).
+*   **Pour alerter et afficher** : Une **LED RVB** (qui passe au rouge en cas de problème), un **Buzzer** (alarme sonore) et un **écran LCD** pour afficher les mesures.
+*   **Pour agir** : Un **relais** pour allumer une vraie lampe de la salle.
 
 ---
 
@@ -539,32 +469,22 @@ Objectif : surveiller en temps réel la température, la luminosité et la sécu
 <!-- IMAGE: chercher sur Google "arduino starter kit components photo" → sauvegarder dans images/kit_composants.png -->
 <!-- ![bg right:38% 85%](images/kit_composants.png) -->
 
-| Composant | Catégorie | Rôle principal |
-|-----------|-----------|----------------|
-| Arduino Uno | Contrôle | Exécute le programme |
-| Breadboard + fils | Prototypage | Connexions sans soudure |
-| DHT11 | Capteur | Température et humidité |
-| LDR | Capteur | Luminosité ambiante |
-| HC-SR04 | Capteur | Distance par ultrasons |
-| PIR | Capteur | Détection de mouvement |
-| LED / LED RVB | Actionneur | Signalisation visuelle |
-| Buzzer | Actionneur | Signalisation sonore |
-| Relais 5V | Actionneur | Circuits 220V |
-| Servomoteur SG90 | Actionneur | Mouvement angulaire (0°-180°) |
-| Potentiomètre | Passif | Réglage manuel |
+Voici comment regrouper les éléments du matériel distribué :
 
----
+*   **Le Cerveau** : La carte Arduino Uno.
+*   **Le Prototypage** : La breadboard (plaque d'essai) et les fils de connexion.
+*   **Les Capteurs** : DHT11 (climat), LDR (lumière), HC-SR04 (distance), PIR (mouvement), Potentiomètre (bouton rotatif).
+*   **Les Actionneurs** : LEDs de couleurs, LED RVB, Buzzer (son), Servomoteur SG90 (mouvement angulaire), Relais (interrupteur électrique).
 
 ---
 
 ## Conclusion — Points clés à retenir
 
-- Arduino est la porte d'entrée de l'électronique embarquée : simple, documenté, communauté massive.
-- ESP32 est l'évolution naturelle pour tout projet qui nécessite du réseau ou plus de puissance.
-- Les fonctions `setup()` et `loop()` sont la colonne vertébrale de tout programme Arduino.
-- Le baud rate doit être identique côté code et côté Moniteur Série pour une communication lisible.
-- La méthode : tester chaque composant seul avant d'assembler un système complet.
-- En cas d'erreur, éliminer méthodiquement les hypothèses — code, câblage, puis composant.
+*   **Simplicité** : Arduino est parfait pour démarrer et comprendre les bases de l'électronique de façon intuitive.
+*   **Évolution connectée** : L'ESP32 prend naturellement le relais dès qu'on a besoin d'objets connectés (IoT) ou de performances élevées.
+*   **Bonnes pratiques** : Testez toujours vos capteurs séparément avec des programmes simples pour ne pas vous perdre dans les pannes complexes.
+*   **Méthodologie** : Quand un montage ne marche pas, gardez votre calme et vérifiez d'abord le code, ensuite le câblage, et enfin le matériel.
 
 ---
-*Merci de votre attention — Place à la démonstration pratique.*
+
+*Merci pour votre attention. Place maintenant à la démonstration pratique !*
