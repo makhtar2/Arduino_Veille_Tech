@@ -13,11 +13,12 @@ mongoose.connect(process.env.MONGO_URI)
     process.exit(1);
   });
 
-// 2. Définition du Schéma Mongoose
-// { timestamps: true } ajoute automatiquement les champs createdAt et updatedAt
+// 2. Définition du Schéma Mongoose avec date et heure formatées en local
 const sensorSchema = new mongoose.Schema({
   temperature: { type: Number, required: true },
-  humidity: { type: Number, required: true }
+  humidity: { type: Number, required: true },
+  date: { type: String, required: true }, // Format: "JJ/MM/AAAA"
+  heure: { type: String, required: true } // Format: "HH:MM:SS"
 }, { 
   timestamps: true 
 });
@@ -73,9 +74,21 @@ const INTERVALLE_3_MINUTES = 10000;
 setInterval(async () => {
   if (derniereMesure !== null) {
     try {
-      const nouvelEnregistrement = new SensorData(derniereMesure);
+      const maintenant = new Date();
+      // Format local de la date (ex: "28/06/2026")
+      const dateLocale = maintenant.toLocaleDateString('fr-FR');
+      // Format local de l'heure (ex: "18:45:12")
+      const heureLocale = maintenant.toLocaleTimeString('fr-FR');
+
+      const nouvelEnregistrement = new SensorData({
+        temperature: derniereMesure.temperature,
+        humidity: derniereMesure.humidity,
+        date: dateLocale,
+        heure: heureLocale
+      });
+
       await nouvelEnregistrement.save();
-      console.log(`💾 [MongoDB] Données sauvegardées en base avec succès !`);
+      console.log(`💾 [MongoDB] Données sauvegardées en base à ${heureLocale} (${dateLocale}) !`);
     } catch (err) {
       console.error("❌ Impossible d'enregistrer les données :", err.message);
     }
