@@ -54,14 +54,30 @@ void loop() {
 
 ---
 
-## 🗄️ Étape 2 : Configuration de la Base de Données MongoDB
+## 🗄️ Étape 2 : Installation et Configuration de MongoDB (En Local)
 
-1. Ouvrez **MongoDB Compass**.
-2. Connectez-vous à votre instance locale (`mongodb://127.0.0.1:27017`).
-3. Cliquez sur **Create database** (Créer une base de données) :
+Pour faire simple et éviter la complexité de la configuration dans le cloud, nous utilisons la base de données en local sur votre ordinateur.
+
+### 1. Installer et démarrer MongoDB sur votre PC Linux
+Ouvrez un terminal et exécutez la commande suivante pour installer et démarrer le service MongoDB :
+```bash
+sudo apt update && sudo apt install -y mongodb && sudo systemctl start mongodb
+```
+*La base de données tourne désormais silencieusement en tâche de fond sur votre ordinateur.*
+
+### 2. Installer MongoDB Compass (l'interface graphique)
+Pour visualiser vos données enregistrées :
+1. Téléchargez le fichier d'installation en cliquant ici : [Télécharger MongoDB Compass (.deb)](https://downloads.mongodb.com/compass/mongodb-compass_1.43.0_amd64.deb)
+2. Une fois le téléchargement terminé, double-cliquez sur le fichier `.deb` dans votre dossier Téléchargements pour l'installer (ou exécutez `sudo dpkg -i ~/Downloads/mongodb-compass_*.deb` dans le terminal).
+
+### 3. Se connecter et préparer la Base de Données
+1. Lancez **MongoDB Compass** depuis la liste de vos applications.
+2. Une fenêtre s'ouvre avec une case pré-remplie contenant la chaîne par défaut : `mongodb://localhost:27017`.
+3. Cliquez simplement sur le bouton vert **"Connect"**.
+4. Une fois connecté, cliquez sur **Create database** (Créer une base de données) :
    * **Database Name** : `iot_database`
    * **Collection Name** : `sensor_data`
-4. Laissez la base de données ouverte.
+5. Laissez Compass ouvert de côté.
 
 ---
 
