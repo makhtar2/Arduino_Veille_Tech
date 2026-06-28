@@ -120,9 +120,9 @@ BAUD_RATE=9600
 
 ## 🛠️ Étape 4 : Écriture du Serveur Node.js (`index.js`)
 
-Créez le fichier `/home/almuxtaar/Desktop/Veille_Technologique_Microcontroleur/iot_backend/index.js`. 
+Créez le fichier `index.js` dans le dossier `iot_backend`. 
 
-Pour lire le texte brut envoyé par l'Arduino (`Humidite ambiante : 45.00 % | Temperature : 22.00 *C`), le serveur utilise une **Expression Régulière (Regex)** qui extrait automatiquement les nombres.
+Pour lire le texte brut envoyé par l'Arduino (`Humidite ambiante : 45.00 % | Temperature : 22.00 *C`), le serveur utilise une **Expression Régulière (Regex)** qui extrait uniquement les valeurs numériques et construit un objet propre sans fioritures ni timestamps automatiques générés par la base de données.
 
 ```javascript
 require('dotenv').config();
@@ -130,28 +130,29 @@ const mongoose = require('mongoose');
 const { SerialPort } = require('serialport');
 const { ReadlineParser } = require('@serialport/parser-readline');
 
-console.log("Démarrage du pont de données Arduino -> MongoDB...");
+console.log("Demarrage du pont de donnees Arduino -> MongoDB...");
 
-// 1. Connexion à la Base de Données
+// Connexion a la base de donnees
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ Connexion réussie à MongoDB !"))
+  .then(() => console.log("Connexion reussie a MongoDB"))
   .catch(err => {
-    console.error("❌ Erreur de connexion MongoDB :", err.message);
+    console.error("Erreur de connexion MongoDB :", err.message);
     process.exit(1);
   });
 
-// 2. Définition du Schéma Mongoose
-// { timestamps: true } ajoute automatiquement les champs createdAt et updatedAt
+// Schema de donnees sans options de timestamp automatique
 const sensorSchema = new mongoose.Schema({
   temperature: { type: Number, required: true },
-  humidity: { type: Number, required: true }
-}, { 
-  timestamps: true 
+  humidity: { type: Number, required: true },
+  date: { type: String, required: true },
+  heure: { type: String, required: true }
+}, {
+  versionKey: false // Supprime le champ __v genere par Mongoose
 });
 
 const SensorData = mongoose.model('sensor_data', sensorSchema);
 
-// 3. Liaison avec le Port Série de l'Arduino
+// Configuration du port serie
 const port = new SerialPort({
   path: process.env.SERIAL_PORT,
   baudRate: parseInt(process.env.BAUD_RATE)
@@ -160,20 +161,17 @@ const port = new SerialPort({
 const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
 
 port.on('open', () => {
-  console.log(`🔌 Écoute du port série établie sur ${process.env.SERIAL_PORT}`);
+  console.log(`Port serie ouvert sur ${process.env.SERIAL_PORT}`);
 });
 
 port.on('error', (err) => {
-  console.error("❌ Erreur de communication série :", err.message);
+  console.error("Erreur port serie :", err.message);
 });
 
-// Variable temporaire pour conserver la dernière mesure lue
 let derniereMesure = null;
 
-// 4. Analyse et extraction des données textuelles de l'Arduino
+// Lecture des donnees envoyees par l'Arduino
 parser.on('data', (line) => {
-  // Ligne attendue : "Humidite ambiante : 62.00 %  |  Temperature : 24.50 *C"
-  // Expression régulière pour extraire l'humidité (1er groupe) et la température (2e groupe)
   const regex = /Humidite ambiante\s*:\s*([\d.]+)\s*%\s*\|\s*Temperature\s*:\s*([\d.]+)\s*\*C/;
   const match = line.match(regex);
 
@@ -186,28 +184,38 @@ parser.on('data', (line) => {
         temperature: temp,
         humidity: hum
       };
-      console.log(`[Reçu] Température : ${temp}°C | Humidité : ${hum}%`);
+      console.log(`Mesure recue - Temp: ${temp}C | Hum: ${hum}%`);
     }
   } else {
-    // Affiche les messages système de l'Arduino (comme "--- Demarrage de la station ---")
-    console.log(`[Arduino] ${line}`);
+    console.log(`Arduino: ${line}`);
   }
 });
 
-// 5. Enregistrement en base toutes les 3 minutes (180 000 ms)
-const INTERVALLE_3_MINUTES = 3 * 60 * 1000;
+// Enregistrement periodique en base de donnees (toutes les 3 minutes)
+// Pour vos tests, vous pouvez mettre 10000 (10 secondes) au lieu de 3 * 60 * 1000
+const INTERVALLE_3_MINUTES = 3 * 60 * 1000; 
 
 setInterval(async () => {
   if (derniereMesure !== null) {
     try {
-      const nouvelEnregistrement = new SensorData(derniereMesure);
+      const maintenant = new Date();
+      const dateLocale = maintenant.toLocaleDateString('fr-FR');
+      const heureLocale = maintenant.toLocaleTimeString('fr-FR');
+
+      const nouvelEnregistrement = new SensorData({
+        temperature: derniereMesure.temperature,
+        humidity: derniereMesure.humidity,
+        date: dateLocale,
+        heure: heureLocale
+      });
+
       await nouvelEnregistrement.save();
-      console.log(`💾 [MongoDB] Données sauvegardées en base avec succès !`);
+      console.log(`Donnees enregistrees en base a ${heureLocale} (${dateLocale})`);
     } catch (err) {
-      console.error("❌ Impossible d'enregistrer les données :", err.message);
+      console.error("Erreur lors de l'enregistrement :", err.message);
     }
   } else {
-    console.log("⚠️ En attente de mesures valides de l'Arduino...");
+    console.log("En attente de mesures valides...");
   }
 }, INTERVALLE_3_MINUTES);
 ```
@@ -220,26 +228,35 @@ setInterval(async () => {
 Téléversez votre code d'origine de la Veille 1 sur la carte Arduino.
 
 ### 2. Lancer le Serveur Node.js
-Dans votre dossier `/home/almuxtaar/Desktop/Veille_Technologique_Microcontroleur/iot_backend`, exécutez :
+Dans votre dossier `iot_backend`, exécutez :
 ```bash
 node index.js
 ```
 
 Le terminal affichera :
 ```text
-Démarrage du pont de données Arduino -> MongoDB...
-✅ Connexion réussie à MongoDB !
-🔌 Écoute du port série établie sur /dev/ttyACM0
-[Arduino] --- Demarrage de la station ---
-[Reçu] Température : 24.50°C | Humidité : 62.00%
-[Reçu] Température : 24.50°C | Humidité : 62.00%
+Demarrage du pont de donnees Arduino -> MongoDB...
+Connexion reussie a MongoDB
+Port serie ouvert sur COM3
+Arduino: --- Demarrage de la station ---
+Mesure recue - Temp: 24.50C | Hum: 62.00%
+Mesure recue - Temp: 24.50C | Hum: 62.00%
 ```
 
 ### 3. Vérification de la sauvegarde automatique
-Laissez tourner le programme. Toutes les 3 minutes, la ligne suivante apparaîtra dans votre terminal, indiquant que les données ont bien été enregistrées dans MongoDB :
+Laissez tourner le programme. Toutes les 3 minutes, la ligne de confirmation apparaît dans votre console :
 ```text
-💾 [MongoDB] Données sauvegardées en base avec succès !
+Donnees enregistrees en base a 18:45:12 (28/06/2026)
 ```
 
 ### 4. Contrôle dans MongoDB Compass
-Dans MongoDB Compass, ouvrez la collection `sensor_data` de la base `iot_database` et cliquez sur **Refresh** : vous verrez apparaître vos documents stockés avec les températures et humidités réelles, associées à la date et heure précises (`createdAt`).
+Dans MongoDB Compass, ouvrez la collection `sensor_data` de la base `iot_database` et cliquez sur **Refresh**. 
+
+Chaque document enregistré sera extrêmement propre et contiendra **uniquement** les champs suivants :
+* `_id` (généré automatiquement par MongoDB)
+* `temperature` (valeur numérique)
+* `humidity` (valeur numérique)
+* `date` (format "JJ/MM/AAAA")
+* `heure` (format "HH:MM:SS")
+
+*Il n'y a aucun autre champ système inutile ou date UTC parasite dans vos documents.*

@@ -3,29 +3,29 @@ const mongoose = require('mongoose');
 const { SerialPort } = require('serialport');
 const { ReadlineParser } = require('@serialport/parser-readline');
 
-console.log("Démarrage du pont de données Arduino -> MongoDB...");
+console.log("Demarrage du pont de donnees Arduino -> MongoDB...");
 
-// 1. Connexion à la Base de Données
+// Connexion a la base de donnees
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ Connexion réussie à MongoDB !"))
+  .then(() => console.log("Connexion reussie a MongoDB"))
   .catch(err => {
-    console.error("❌ Erreur de connexion MongoDB :", err.message);
+    console.error("Erreur de connexion MongoDB :", err.message);
     process.exit(1);
   });
 
-// 2. Définition du Schéma Mongoose avec date et heure formatées en local
+// Schema de donnees sans options de timestamp automatique
 const sensorSchema = new mongoose.Schema({
   temperature: { type: Number, required: true },
   humidity: { type: Number, required: true },
-  date: { type: String, required: true }, // Format: "JJ/MM/AAAA"
-  heure: { type: String, required: true } // Format: "HH:MM:SS"
-}, { 
-  timestamps: true 
+  date: { type: String, required: true },
+  heure: { type: String, required: true }
+}, {
+  versionKey: false // Supprime le champ __v genere par Mongoose
 });
 
 const SensorData = mongoose.model('sensor_data', sensorSchema);
 
-// 3. Liaison avec le Port Série de l'Arduino
+// Configuration du port serie
 const port = new SerialPort({
   path: process.env.SERIAL_PORT,
   baudRate: parseInt(process.env.BAUD_RATE)
@@ -34,20 +34,17 @@ const port = new SerialPort({
 const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
 
 port.on('open', () => {
-  console.log(`🔌 Écoute du port série établie sur ${process.env.SERIAL_PORT}`);
+  console.log(`Port serie ouvert sur ${process.env.SERIAL_PORT}`);
 });
 
 port.on('error', (err) => {
-  console.error("❌ Erreur de communication série :", err.message);
+  console.error("Erreur port serie :", err.message);
 });
 
-// Variable temporaire pour conserver la dernière mesure lue
 let derniereMesure = null;
 
-// 4. Analyse et extraction des données textuelles de l'Arduino
+// Lecture des donnees envoyees par l'Arduino
 parser.on('data', (line) => {
-  // Ligne attendue : "Humidite ambiante : 62.00 %  |  Temperature : 24.50 *C"
-  // Expression régulière pour extraire l'humidité (1er groupe) et la température (2e groupe)
   const regex = /Humidite ambiante\s*:\s*([\d.]+)\s*%\s*\|\s*Temperature\s*:\s*([\d.]+)\s*\*C/;
   const match = line.match(regex);
 
@@ -60,24 +57,21 @@ parser.on('data', (line) => {
         temperature: temp,
         humidity: hum
       };
-      console.log(`[Reçu] Température : ${temp}°C | Humidité : ${hum}%`);
+      console.log(`Mesure recue - Temp: ${temp}C | Hum: ${hum}%`);
     }
   } else {
-    // Affiche les messages système de l'Arduino (comme "--- Demarrage de la station ---")
-    console.log(`[Arduino] ${line}`);
+    console.log(`Arduino: ${line}`);
   }
 });
 
-// 5. Enregistrement en base toutes les 3 minutes (180 000 ms)
-// const INTERVALLE_3_MINUTES = 3 * 60 * 1000;
-const INTERVALLE_3_MINUTES = 10000;
+// Enregistrement periodique en base de donnees
+const INTERVALLE_3_MINUTES = 10000; // 10 secondes pour le test de demonstration
+
 setInterval(async () => {
   if (derniereMesure !== null) {
     try {
       const maintenant = new Date();
-      // Format local de la date (ex: "28/06/2026")
       const dateLocale = maintenant.toLocaleDateString('fr-FR');
-      // Format local de l'heure (ex: "18:45:12")
       const heureLocale = maintenant.toLocaleTimeString('fr-FR');
 
       const nouvelEnregistrement = new SensorData({
@@ -88,11 +82,11 @@ setInterval(async () => {
       });
 
       await nouvelEnregistrement.save();
-      console.log(`💾 [MongoDB] Données sauvegardées en base à ${heureLocale} (${dateLocale}) !`);
+      console.log(`Donnees enregistrees en base a ${heureLocale} (${dateLocale})`);
     } catch (err) {
-      console.error("❌ Impossible d'enregistrer les données :", err.message);
+      console.error("Erreur lors de l'enregistrement :", err.message);
     }
   } else {
-    console.log("⚠️ En attente de mesures valides de l'Arduino...");
+    console.log("En attente de mesures valides...");
   }
 }, INTERVALLE_3_MINUTES);
