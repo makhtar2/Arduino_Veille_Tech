@@ -187,27 +187,45 @@ C'est l'outil de référence pour apprendre l'électronique embarquée et réali
 
 ---
 
-## Slide 2 — Arduino Uno, Mega et Nano : les différences
+## Slide 1b — Arduino Uno : schéma complet des broches et composants
 
-| Modèle | Format | I/O num | I/O ana | Flash |
-|--------|--------|---------|---------|-------|
-| **Uno** | Standard | 14 | 6 | 32 Ko |
-| **Mega** | Grand | 54 | 16 | 256 Ko |
-| **Nano** | Miniature | 14 | 8 | 32 Ko |
-
-- L'**Uno** est idéal pour débuter et pour la majorité des projets.
-- Le **Mega** est préféré pour des projets nécessitant beaucoup de connexions (ex: imprimante 3D).
-- Le **Nano** offre les mêmes capacités que l'Uno dans un format compact, parfait pour être intégré dans un boîtier.
+![bg 86%](images/arduino_uno_pinout.png)
 
 ---
 
-<!-- _class: cards -->
+## Slide 2 — Comparaison : Arduino Uno vs Mega vs Nano
 
-## Slide 2b — Les trois cartes en image
+![bg 82%](images/arduino_comparison.png)
 
-![w:280](images/arduino_uno.png) ![w:280](images/arduino_mega.png) ![w:200](images/arduino_nano.png)
+---
 
-**Arduino Uno** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Arduino Mega** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **Arduino Nano**
+## Slide 2b — Analyse comparative : quelle carte choisir ?
+
+![bg right:42% 95%](images/arduino_mega.png)
+
+**Arduino Uno** — La carte idéale pour débuter. Simple, bien documentée, parfaite pour la majorité des projets d'apprentissage et de prototypage.
+
+**Arduino Mega** — Conçue pour les projets complexes nécessitant de nombreuses entrées/sorties : 54 broches numériques, 16 entrées analogiques, 4 ports série matériels.
+
+**Arduino Nano** — Même puissance que l'Uno dans un format 3x plus petit. Idéale pour les projets compacts ou portables.
+
+---
+
+## Slide 2c — Arduino Nano : la carte miniature
+
+![bg right:45% 90%](images/arduino_nano.png)
+
+La Nano embarque le même ATmega328P que l'Uno mais dans un format ultra-compact qui s'enfiche directement sur une breadboard.
+
+**Points forts :**
+- 8 entrées analogiques (vs 6 sur l'Uno)
+- Pas besoin de shield pour prototypage
+- Compatible avec les mêmes bibliothèques que l'Uno
+
+**Contraintes :**
+- Pas de connecteur jack d'alimentation
+- Port Mini-USB ou Micro-USB selon la version
+- Courant de sortie par broche identique (40 mA max)
 
 ---
 
