@@ -189,13 +189,13 @@ C'est l'outil de référence pour apprendre l'électronique embarquée et réali
 
 ## Slide 1b — Arduino Uno : schéma complet des broches et composants
 
-![bg 86%](images/arduino_uno_pinout.png)
+![bg 70%](images/arduino_uno_pinout.png)
 
 ---
 
 ## Slide 2 — Comparaison : Arduino Uno vs Mega vs Nano
 
-![bg 82%](images/arduino_comparison.png)
+![bg 68%](images/arduino_comparison.png)
 
 ---
 
@@ -245,27 +245,31 @@ L'ESP32 est devenu un standard dans l'Internet des Objets car il intègre native
 
 ## Slide 4 — Les entrées et sorties d'une carte Arduino
 
+<!-- IMAGE: chercher sur Google "Arduino Uno pinout diagram" → sauvegarder dans images/arduino_pinout_diagram.png -->
+<!-- ![bg right:38% 90%](images/arduino_pinout_diagram.png) -->
+
 Une carte Arduino expose plusieurs types de connexions physiques :
 
 | Type | Broches | Utilité concrète |
 |------|---------|-----------------|
 | Numériques | D0 à D13 | Lire un bouton, allumer une LED |
-| PWM (numérique) | D3, 5, 6, 9, 10, 11 | Varier la vitesse d'un moteur ou l'intensité d'une LED |
-| Analogiques | A0 à A5 | Lire un potentiomètre, une LDR, un capteur de gaz |
-| Alimentation | 5V, 3.3V, GND | Alimenter les capteurs et modules |
+| PWM | D3, 5, 6, 9, 10, 11 | Varier vitesse moteur ou intensité LED |
+| Analogiques | A0 à A5 | Lire potentiomètre, LDR, capteur de gaz |
+| Alimentation | 5V, 3.3V, GND | Alimenter capteurs et modules |
 | Communication | TX/RX, SDA/SCL | Liaisons série, I2C, SPI |
 
 ---
 
 ## Slide 5 — Entrée analogique vs entrée numérique
 
-La différence fondamentale est la nature du signal reçu :
+<!-- IMAGE: chercher sur Google "digital vs analog signal arduino" → sauvegarder dans images/analog_vs_digital.png -->
+<!-- ![bg right:38% 85%](images/analog_vs_digital.png) -->
 
-**Entrée numérique** : ne reconnaît que deux états — HAUT (5V) ou BAS (0V). Utilisée pour des interrupteurs ou des capteurs tout-ou-rien. Fonction Arduino : `digitalRead()`.
+**Entrée numérique** : deux états uniquement — HAUT (5V) ou BAS (0V). Pour des interrupteurs ou capteurs tout-ou-rien. Fonction : `digitalRead()`.
 
-**Entrée analogique** : mesure une tension qui varie en continu entre 0V et 5V. Le convertisseur intégré la traduit en une valeur entre **0 et 1023** (résolution 10 bits). Utilisée pour quantifier des grandeurs physiques continues. Fonction Arduino : `analogRead()`.
+**Entrée analogique** : tension continue entre 0V et 5V, convertie en valeur entre **0 et 1023** (10 bits). Pour quantifier des grandeurs physiques. Fonction : `analogRead()`.
 
-> Exemple concret : un bouton utilise une entrée numérique, un capteur de luminosité (LDR) utilise une entrée analogique.
+> Exemple : un bouton → numérique. Un capteur de luminosité (LDR) → analogique.
 
 ---
 
@@ -285,9 +289,11 @@ Démarrage → setup() → loop() → loop() → loop() → ...
 
 ## Slide 7 — Communication entre Arduino et ordinateur
 
-L'Arduino communique avec l'ordinateur via le câble USB, mais ce n'est pas du USB natif du côté du microcontrôleur. Une puce dédiée (ATmega16U2 sur les cartes officielles, CH340 sur les clones) **convertit le signal USB en protocole UART**, compris par le microcontrôleur.
+<!-- IMAGE: chercher sur Google "arduino USB UART communication diagram" → sauvegarder dans images/usb_uart.png -->
+<!-- ![bg right:38% 85%](images/usb_uart.png) -->
 
-Côté code, on envoie des données avec :
+L'Arduino communique avec l'ordinateur via le câble USB. Une puce dédiée (ATmega16U2 sur les cartes officielles, CH340 sur les clones) **convertit le signal USB en protocole UART**, compris par le microcontrôleur.
+
 ```cpp
 Serial.begin(9600);       // initialiser la liaison à 9600 bauds
 Serial.println(valeur);   // envoyer une valeur vers l'ordinateur
@@ -310,17 +316,23 @@ Il est indispensable pour :
 
 ## Slide 9 — Rôle du module Wi-Fi ESP8266
 
-L'ESP8266 est un module Wi-Fi qui ajoute la connectivité réseau à un microcontrôleur qui n'en possède pas nativement (comme l'Arduino Uno).
+<!-- IMAGE: chercher sur Google "ESP8266 ESP-01 module photo" → sauvegarder dans images/esp8266.png -->
+<!-- ![bg right:35% 80%](images/esp8266.png) -->
 
-- Il communique avec l'Arduino via une liaison série en utilisant des **commandes AT** (ex: `AT+CWJAP` pour se connecter à un réseau Wi-Fi).
-- En version autonome (NodeMCU), il peut fonctionner **sans Arduino** : il intègre lui-même un microcontrôleur programmable.
-- Il est utilisé pour envoyer des données vers un serveur, appeler une API web ou piloter un objet à distance.
+L'ESP8266 est un module Wi-Fi qui ajoute la connectivité réseau à un microcontrôleur qui n'en possède pas nativement.
+
+- Communique avec l'Arduino via des **commandes AT** sur liaison série
+- En version NodeMCU : fonctionne **seul sans Arduino**
+- Utilisé pour envoyer des données vers un serveur ou appeler une API web
 
 ---
 
 ## Slide 10 — Connecter un capteur à un Arduino
 
-La connexion d'un capteur suit toujours le même schéma à trois fils :
+<!-- IMAGE: chercher sur Google "arduino sensor wiring breadboard DHT11" → sauvegarder dans images/capteur_branchement.png -->
+<!-- ![bg right:38% 85%](images/capteur_branchement.png) -->
+
+La connexion suit toujours le même schéma à trois fils :
 
 | Broche du capteur | Connectée à | Raison |
 |-------------------|-------------|--------|
@@ -328,21 +340,22 @@ La connexion d'un capteur suit toujours le même schéma à trois fils :
 | GND (ou -) | GND de l'Arduino | Référence commune de tension |
 | SIG / OUT / DATA | Broche numérique ou analogique | Transmettre la mesure |
 
-Si la sortie est une tension variable (ex: LDR) → broche **analogique (A0-A5)**.
-Si la sortie est un signal binaire ou numérique (ex: DHT11) → broche **numérique (D2-D13)**.
+Sortie tension variable (LDR) → broche **analogique (A0-A5)**.
+Signal binaire (DHT11) → broche **numérique (D2-D13)**.
 
 ---
 
 ## Slide 11 — Commander un actionneur
 
-Un actionneur (moteur, buzzer, relais) est contrôlé depuis une broche de sortie. Deux cas de figure :
+<!-- IMAGE: chercher sur Google "arduino relay module wiring diagram" → sauvegarder dans images/actionneur_relais.png -->
+<!-- ![bg right:38% 85%](images/actionneur_relais.png) -->
 
-**Faible puissance (< 40 mA)** : connexion directe à une broche numérique avec une résistance de limitation de courant. Convient aux LEDs, buzzers passifs.
+**Faible puissance (< 40 mA)** : connexion directe avec résistance en série. Pour LEDs, buzzers passifs.
 
-**Forte puissance** : l'Arduino ne peut pas fournir assez de courant. Il faut une interface intermédiaire :
-- **Transistor MOSFET** pour les charges continues (moteur DC)
-- **Relais** pour isoler et contrôler des circuits 220V (ampoules, pompes)
-- **Pont en H (L298N)** pour contrôler le sens de rotation d'un moteur
+**Forte puissance** : interface intermédiaire obligatoire :
+- **Transistor MOSFET** pour moteur DC
+- **Relais** pour circuits 220V
+- **Pont en H (L298N)** pour contrôler le sens de rotation
 
 L'Arduino commande l'interrupteur, une alimentation externe alimente l'actionneur.
 
@@ -367,6 +380,9 @@ Installation : Croquis > Inclure une bibliothèque > Gérer les bibliothèques.
 
 ## Slide 13 — Broches VCC, GND, SIG, AO et DO
 
+<!-- IMAGE: chercher sur Google "arduino sensor module VCC GND SIG pins" → sauvegarder dans images/module_pins.png -->
+<!-- ![bg right:35% 80%](images/module_pins.png) -->
+
 Ces étiquettes se retrouvent sur la quasi-totalité des modules du kit :
 
 | Broche | Nom complet | Rôle |
@@ -375,20 +391,19 @@ Ces étiquettes se retrouvent sur la quasi-totalité des modules du kit :
 | GND | Ground (masse) | Référence électrique commune (0V) |
 | SIG | Signal | Entrée ou sortie de données |
 | AO | Analog Output | Tension continue proportionnelle à la mesure |
-| DO | Digital Output | Signal binaire selon un seuil réglable (via potentiomètre) |
-
-Sur les modules à double sortie (ex: capteur de flamme), **AO** donne une valeur précise et **DO** déclenche au-delà d'un seuil ajustable.
+| DO | Digital Output | Signal binaire selon un seuil réglable |
 
 ---
 
 ## Slide 14 — Identifier les broches sans documentation
 
-Lorsqu'aucune étiquette ni datasheet n'est disponible, plusieurs méthodes permettent d'identifier les broches :
+<!-- IMAGE: chercher sur Google "reading PCB silkscreen Arduino module" → sauvegarder dans images/pcb_silkscreen.png -->
+<!-- ![bg right:38% 85%](images/pcb_silkscreen.png) -->
 
-1. **Sérigraphie** : examiner le circuit imprimé des deux côtés — les étiquettes VCC, GND, S, +, - sont souvent gravées sur le PCB.
-2. **Référence du circuit intégré** : noter le nom de la puce principale et chercher sa datasheet sur Google (ex: "LM393 datasheet").
-3. **Multimètre en continuité** : le GND est souvent relié aux grandes surfaces de cuivre (plan de masse). VCC passe généralement par des condensateurs ou une LED témoin.
-4. **Potentiomètre visible** : sa présence indique généralement une sortie numérique DO dont le seuil est ajustable.
+1. **Sérigraphie** : lire les étiquettes gravées sur le PCB des deux côtés
+2. **Référence de la puce** : chercher "LM393 datasheet" sur Google
+3. **Multimètre** : le GND est relié aux grandes surfaces de cuivre
+4. **Potentiomètre visible** : présence d'une sortie DO à seuil réglable
 
 ---
 
@@ -421,29 +436,29 @@ Pour un projet de démarrage sans réseau, l'Uno reste suffisant et plus simple 
 
 ## Slide 17 — Choisir le bon port série dans l'IDE
 
-Lorsque plusieurs ports apparaissent dans la liste, il est facile de se tromper. La méthode fiable :
+<!-- IMAGE: chercher sur Google "Arduino IDE select port menu" → sauvegarder dans images/ide_port.png -->
+<!-- ![bg right:40% 85%](images/ide_port.png) -->
 
-1. Ouvrir **Outils > Port** et noter les ports déjà présents.
-2. **Débrancher** la carte Arduino.
-3. **Rebrancher** : le nouveau port qui apparaît est celui de votre carte.
+1. Ouvrir **Outils > Port** et noter les ports présents
+2. **Débrancher** la carte Arduino
+3. **Rebrancher** : le nouveau port = votre carte
 
 Noms typiques :
-- Sous Windows : `COM3`, `COM7`...
-- Sous Linux : `/dev/ttyACM0` ou `/dev/ttyUSB0`
-
-Si aucun port n'apparaît, le pilote de la puce USB-Série n'est probablement pas installé (CH340 pour les cartes clones).
+- Windows : `COM3`, `COM7`...
+- Linux : `/dev/ttyACM0` ou `/dev/ttyUSB0`
 
 ---
 
 ## Slide 18 — Choisir le bon modèle de carte dans l'IDE
 
-Il est important de sélectionner le modèle exact car cela détermine la configuration de la compilation et du téléversement.
+<!-- IMAGE: chercher sur Google "Arduino IDE board selection menu" → sauvegarder dans images/ide_board.png -->
+<!-- ![bg right:40% 85%](images/ide_board.png) -->
 
-1. Aller dans **Outils > Type de carte > Arduino AVR Boards**.
-2. Sélectionner le modèle exact : **Arduino Uno**, **Arduino Mega**, **Arduino Nano**...
-3. Pour les cartes non officielles (ESP32, ESP8266), il faut d'abord ajouter une URL dans les Préférences de l'IDE, puis installer la définition via le Gestionnaire de cartes.
+1. Aller dans **Outils > Type de carte > Arduino AVR Boards**
+2. Sélectionner le modèle exact : **Arduino Uno**, **Mega**, **Nano**...
+3. Pour ESP32/ESP8266 : ajouter l'URL dans les Préférences puis installer via le Gestionnaire de cartes
 
-Un mauvais choix de carte peut provoquer des erreurs de téléversement ou un comportement imprévisible du programme.
+Un mauvais choix de carte peut bloquer le téléversement.
 
 ---
 
@@ -500,43 +515,42 @@ La règle est de toujours tester avec un exemple de bibliothèque certifié avan
 
 ## Slide 23 — Station de surveillance intelligente d'une salle
 
-Objectif : concevoir un système autonome surveillant en temps réel la température, la luminosité et la sécurité d'une salle.
+<!-- IMAGE: chercher sur Google "arduino smart room monitoring station diagram" → sauvegarder dans images/station_surveillance.png -->
+<!-- ![bg right:40% 85%](images/station_surveillance.png) -->
 
-**Capteurs utilisés :**
-- DHT11 → mesure la température et l'humidité
-- LDR → détecte le niveau de luminosité
-- PIR → détecte la présence humaine par infrarouge
+Objectif : surveiller en temps réel la température, la luminosité et la sécurité d'une salle.
 
-**Actionneurs utilisés :**
-- LED RVB → indique l'état général (vert = normal, rouge = alerte)
-- Buzzer → émet une alarme sonore en cas d'intrusion ou de surchauffe
-- Écran LCD I2C → affiche les valeurs en temps réel
+**Capteurs :** DHT11 (temp/humidité), LDR (lumière), PIR (mouvement)
 
-**Logique du système :**
-- Si mouvement détecté → alerte rouge + buzzer
-- Si température dépasse 28°C → alerte orange + bip
-- Si tout est normal → LED verte + lecture continue toutes les secondes
+**Actionneurs :** LED RVB (statut), Buzzer (alarme), LCD I2C (affichage)
+
+**Logique :**
+- Mouvement détecté → alerte rouge + buzzer
+- Température > 28°C → alerte orange + bip
+- Normal → LED verte + lecture toutes les secondes
 
 ---
 
 ## Slide 24 — Classification des composants du kit
 
+<!-- IMAGE: chercher sur Google "arduino starter kit components photo" → sauvegarder dans images/kit_composants.png -->
+<!-- ![bg right:38% 85%](images/kit_composants.png) -->
+
 | Composant | Catégorie | Rôle principal |
 |-----------|-----------|----------------|
-| Arduino Uno | Contrôle | Exécute le programme, orchestre les composants |
-| Breadboard + fils | Prototypage | Connexions sans soudure pour les tests |
-| DHT11 | Capteur numérique | Température et humidité ambiante |
-| LDR | Capteur analogique | Niveau de luminosité |
+| Arduino Uno | Contrôle | Exécute le programme |
+| Breadboard + fils | Prototypage | Connexions sans soudure |
+| DHT11 | Capteur | Température et humidité |
+| LDR | Capteur | Luminosité ambiante |
 | HC-SR04 | Capteur | Distance par ultrasons |
-| PIR | Capteur | Détection de mouvement humain |
+| PIR | Capteur | Détection de mouvement |
 | LED / LED RVB | Actionneur | Signalisation visuelle |
 | Buzzer | Actionneur | Signalisation sonore |
-| Écran LCD I2C | Afficheur | Affichage de données utilisateur |
-| Relais 5V | Actionneur | Contrôle de circuits à forte puissance (220V) |
-| Servomoteur SG90 | Actionneur | Mouvement angulaire précis (0° à 180°) |
-| Résistances | Composant passif | Limitation de courant, protection des composants |
-| Potentiomètre | Composant passif | Réglage manuel d'une valeur analogique |
-| Bouton poussoir | Interface utilisateur | Déclenchement manuel d'une action |
+| Relais 5V | Actionneur | Circuits 220V |
+| Servomoteur SG90 | Actionneur | Mouvement angulaire (0°-180°) |
+| Potentiomètre | Passif | Réglage manuel |
+
+---
 
 ---
 
