@@ -3,29 +3,24 @@ marp: true
 theme: default
 paginate: true
 style: |
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
   section {
-    font-family: 'Inter', 'Segoe UI', sans-serif;
-    font-size: 20px;
-    background: #f8faff;
+    font-family: 'Inter', sans-serif;
+    font-size: 19px;
+    background: #ffffff;
     color: #1e293b;
-    padding: 48px 64px;
+    padding: 36px 52px;
     position: relative;
   }
-
   section::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 5px;
-    background: linear-gradient(90deg, #6366f1, #06b6d4);
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, #0f172a 0%, #3b82f6 50%, #06b6d4 100%);
   }
-
   section::after {
-    content: '';
     position: absolute;
     bottom: 0;
     left: 0;
@@ -173,7 +168,7 @@ style: |
 
 ---
 
-## Slide 1 — Rôle d'une carte Arduino
+## Quel est le rôle d'une carte Arduino ?
 
 ![bg right:40% 90%](images/arduino_uno.png)
 
@@ -187,19 +182,19 @@ C'est l'outil de référence pour apprendre l'électronique embarquée et réali
 
 ---
 
-## Slide 1b — Arduino Uno : schéma complet des broches et composants
+## Arduino Uno — Schéma complet des broches et composants
 
-![bg 70%](images/arduino_uno_pinout.png)
+![bg contain](images/arduino_uno_pinout.png)
 
 ---
 
-## Slide 2 — Comparaison : Arduino Uno vs Mega vs Nano
+## Quelle est la différence entre Arduino Uno, Mega et Nano ?
 
 ![bg 68%](images/arduino_comparison.png)
 
 ---
 
-## Slide 2b — Analyse comparative : quelle carte choisir ?
+## Uno vs Mega vs Nano — Quelle carte choisir ?
 
 ![bg right:42% 95%](images/arduino_mega.png)
 
@@ -211,7 +206,7 @@ C'est l'outil de référence pour apprendre l'électronique embarquée et réali
 
 ---
 
-## Slide 2c — Arduino Nano : la carte miniature
+## Arduino Nano — La carte miniature en détail
 
 ![bg right:45% 90%](images/arduino_nano.png)
 
@@ -229,7 +224,7 @@ La Nano embarque le même ATmega328P que l'Uno mais dans un format ultra-compact
 
 ---
 
-## Slide 3 — Pourquoi l'ESP32 est-il populaire pour l'IoT ?
+## Pourquoi l'ESP32 est-il souvent utilisé pour les projets IoT ?
 
 ![bg right:38% 85%](images/esp32.png)
 
@@ -243,7 +238,7 @@ L'ESP32 est devenu un standard dans l'Internet des Objets car il intègre native
 
 ---
 
-## Slide 4 — Les entrées et sorties d'une carte Arduino
+## Quelles sont les principales entrées et sorties disponibles sur une carte Arduino ?
 
 <!-- IMAGE: chercher sur Google "Arduino Uno pinout diagram" → sauvegarder dans images/arduino_pinout_diagram.png -->
 <!-- ![bg right:38% 90%](images/arduino_pinout_diagram.png) -->
@@ -260,7 +255,7 @@ Une carte Arduino expose plusieurs types de connexions physiques :
 
 ---
 
-## Slide 5 — Entrée analogique vs entrée numérique
+## Quelle est la différence entre une entrée analogique et une entrée numérique ?
 
 <!-- IMAGE: chercher sur Google "digital vs analog signal arduino" → sauvegarder dans images/analog_vs_digital.png -->
 <!-- ![bg right:38% 85%](images/analog_vs_digital.png) -->
@@ -273,7 +268,7 @@ Une carte Arduino expose plusieurs types de connexions physiques :
 
 ---
 
-## Slide 6 — Les fonctions setup() et loop()
+## À quoi servent les fonctions setup() et loop() dans Arduino ?
 
 Tout programme Arduino repose sur deux fonctions obligatoires :
 
@@ -287,7 +282,7 @@ Démarrage → setup() → loop() → loop() → loop() → ...
 
 ---
 
-## Slide 7 — Communication entre Arduino et ordinateur
+## Comment un Arduino communique-t-il avec un ordinateur ?
 
 <!-- IMAGE: chercher sur Google "arduino USB UART communication diagram" → sauvegarder dans images/usb_uart.png -->
 <!-- ![bg right:38% 85%](images/usb_uart.png) -->
@@ -301,7 +296,7 @@ Serial.println(valeur);   // envoyer une valeur vers l'ordinateur
 
 ---
 
-## Slide 8 — Le Moniteur Série
+## Qu'est-ce que le moniteur série ?
 
 Le moniteur série est un **outil de débogage et de communication** intégré à l'IDE Arduino. Il affiche en temps réel les données que l'Arduino envoie via `Serial.println()`.
 
@@ -314,7 +309,7 @@ Il est indispensable pour :
 
 ---
 
-## Slide 9 — Rôle du module Wi-Fi ESP8266
+## Quel est le rôle d'un module Wi-Fi ESP8266 ?
 
 <!-- IMAGE: chercher sur Google "ESP8266 ESP-01 module photo" → sauvegarder dans images/esp8266.png -->
 <!-- ![bg right:35% 80%](images/esp8266.png) -->
@@ -327,7 +322,7 @@ L'ESP8266 est un module Wi-Fi qui ajoute la connectivité réseau à un microcon
 
 ---
 
-## Slide 10 — Connecter un capteur à un Arduino
+## Comment connecter un capteur à une carte Arduino ?
 
 <!-- IMAGE: chercher sur Google "arduino sensor wiring breadboard DHT11" → sauvegarder dans images/capteur_branchement.png -->
 <!-- ![bg right:38% 85%](images/capteur_branchement.png) -->
@@ -345,7 +340,7 @@ Signal binaire (DHT11) → broche **numérique (D2-D13)**.
 
 ---
 
-## Slide 11 — Commander un actionneur
+## Comment commander un actionneur avec Arduino ?
 
 <!-- IMAGE: chercher sur Google "arduino relay module wiring diagram" → sauvegarder dans images/actionneur_relais.png -->
 <!-- ![bg right:38% 85%](images/actionneur_relais.png) -->
@@ -361,7 +356,7 @@ L'Arduino commande l'interrupteur, une alimentation externe alimente l'actionneu
 
 ---
 
-## Slide 12 — Bibliothèque Arduino
+## Qu'est-ce qu'une bibliothèque Arduino ?
 
 Une bibliothèque est un ensemble de fonctions préconçues qui simplifient la communication avec des composants complexes. Au lieu de programmer la séquence d'octets nécessaire pour interroger un capteur, on appelle une fonction lisible.
 
@@ -378,7 +373,7 @@ Installation : Croquis > Inclure une bibliothèque > Gérer les bibliothèques.
 
 ---
 
-## Slide 13 — Broches VCC, GND, SIG, AO et DO
+## Quel est le rôle des broches VCC, GND, SIG, AO et DO sur un module électronique ?
 
 <!-- IMAGE: chercher sur Google "arduino sensor module VCC GND SIG pins" → sauvegarder dans images/module_pins.png -->
 <!-- ![bg right:35% 80%](images/module_pins.png) -->
@@ -395,7 +390,7 @@ Ces étiquettes se retrouvent sur la quasi-totalité des modules du kit :
 
 ---
 
-## Slide 14 — Identifier les broches sans documentation
+## Comment identifier les broches d'un capteur sans documentation ?
 
 <!-- IMAGE: chercher sur Google "reading PCB silkscreen Arduino module" → sauvegarder dans images/pcb_silkscreen.png -->
 <!-- ![bg right:38% 85%](images/pcb_silkscreen.png) -->
@@ -407,7 +402,7 @@ Ces étiquettes se retrouvent sur la quasi-totalité des modules du kit :
 
 ---
 
-## Slide 15 — Limites d'une carte Arduino
+## Quelles sont les limites d'une carte Arduino pour une application complexe ?
 
 L'Arduino Uno est excellent pour apprendre et prototyper, mais montre ses limites pour des applications exigeantes :
 
@@ -421,7 +416,7 @@ L'Arduino Uno est excellent pour apprendre et prototyper, mais montre ses limite
 
 ---
 
-## Slide 16 — Quand choisir l'ESP32 plutôt que l'Arduino Uno ?
+## Dans quels cas faut-il préférer l'ESP32 à l'Arduino Uno ?
 
 L'ESP32 s'impose lorsque le projet dépasse les capacités de l'Uno :
 
@@ -434,7 +429,7 @@ Pour un projet de démarrage sans réseau, l'Uno reste suffisant et plus simple 
 
 ---
 
-## Slide 17 — Choisir le bon port série dans l'IDE
+## Comment choisir le bon port série dans Arduino IDE ?
 
 <!-- IMAGE: chercher sur Google "Arduino IDE select port menu" → sauvegarder dans images/ide_port.png -->
 <!-- ![bg right:40% 85%](images/ide_port.png) -->
@@ -449,7 +444,7 @@ Noms typiques :
 
 ---
 
-## Slide 18 — Choisir le bon modèle de carte dans l'IDE
+## Comment choisir le bon modèle de carte dans Arduino IDE ?
 
 <!-- IMAGE: chercher sur Google "Arduino IDE board selection menu" → sauvegarder dans images/ide_board.png -->
 <!-- ![bg right:40% 85%](images/ide_board.png) -->
@@ -462,7 +457,7 @@ Un mauvais choix de carte peut bloquer le téléversement.
 
 ---
 
-## Slide 19 — Compiler vs Téléverser
+## Quelle est la différence entre compiler et téléverser un programme ?
 
 Ces deux actions sont souvent confondues mais sont bien distinctes :
 
@@ -472,7 +467,7 @@ Ces deux actions sont souvent confondues mais sont bien distinctes :
 
 ---
 
-## Slide 20 — Le Baud Rate (débit en bauds)
+## Que signifie le terme « baud rate » dans une communication série ?
 
 Le baud rate est la **vitesse de communication** d'une liaison série, exprimée en bits transmis par seconde.
 
@@ -486,7 +481,7 @@ Sélection dans le Moniteur Série : menu déroulant en bas à droite.
 
 ---
 
-## Slide 21 — Tester un capteur avant de l'intégrer
+## Comment tester un capteur avant de l'intégrer dans un projet complet ?
 
 Avant d'intégrer un capteur dans un projet complet, il est recommandé de le tester de manière isolée pour s'assurer qu'il fonctionne correctement :
 
@@ -499,7 +494,7 @@ Cette isolation évite de passer des heures à chercher un bug dans un montage c
 
 ---
 
-## Slide 22 — Diagnostiquer la source d'une erreur
+## Comment savoir si une erreur vient du code, du câblage ou du capteur ?
 
 Face à un comportement anormal, il faut identifier si le problème vient du code, du câblage ou du composant lui-même :
 
@@ -513,7 +508,7 @@ La règle est de toujours tester avec un exemple de bibliothèque certifié avan
 
 ---
 
-## Slide 23 — Station de surveillance intelligente d'une salle
+## Quels composants utiliser pour une station de surveillance intelligente d'une salle ?
 
 <!-- IMAGE: chercher sur Google "arduino smart room monitoring station diagram" → sauvegarder dans images/station_surveillance.png -->
 <!-- ![bg right:40% 85%](images/station_surveillance.png) -->
@@ -531,7 +526,7 @@ Objectif : surveiller en temps réel la température, la luminosité et la sécu
 
 ---
 
-## Slide 24 — Classification des composants du kit
+## Classification et rôle des composants du kit
 
 <!-- IMAGE: chercher sur Google "arduino starter kit components photo" → sauvegarder dans images/kit_composants.png -->
 <!-- ![bg right:38% 85%](images/kit_composants.png) -->
